@@ -1,9 +1,12 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameOverMenu : MonoBehaviour
 {
     public GameObject gameOverPanel;
+
+    public float gameOverPanelDelay = 1.025f;
 
     private void Awake()
     {
@@ -15,12 +18,19 @@ public class GameOverMenu : MonoBehaviour
 
     public void ShowGameOver()
     {
+        Time.timeScale = 0f;
+
+        StartCoroutine(ShowGameOverWithDelay());
+    }
+
+    private IEnumerator ShowGameOverWithDelay()
+    {
+        yield return new WaitForSecondsRealtime(gameOverPanelDelay);
+
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
         }
-
-        Time.timeScale = 0f;
     }
 
     public void RiseAgain()

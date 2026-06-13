@@ -8,6 +8,11 @@ public class FruitMovement : MonoBehaviour
 
     public float destroyMargin = 0.5f;
 
+    public AudioClip collectSound;
+    public float collectSoundVolume = 1f;
+
+    private bool isCollected = false;
+
     private void Awake()
     {
         if (mainCamera == null)
@@ -60,21 +65,42 @@ public class FruitMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        PlayerAction player = collision.gameObject.GetComponent<PlayerAction>();
+        PlayerAction player = collision.gameObject.GetComponentInParent<PlayerAction>();
 
         if (player != null)
         {
-            Destroy(this.gameObject);
+            CollectFruit();
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        PlayerAction player = collision.gameObject.GetComponent<PlayerAction>();
+        PlayerAction player = collision.gameObject.GetComponentInParent<PlayerAction>();
 
         if (player != null)
         {
-            Destroy(this.gameObject);
+            CollectFruit();
         }
+    }
+
+    private void CollectFruit()
+    {
+        if (isCollected)
+        {
+            return;
+        }
+
+        isCollected = true;
+
+        if (collectSound != null)
+        {
+            AudioSource.PlayClipAtPoint(
+                collectSound,
+                transform.position,
+                collectSoundVolume
+            );
+        }
+
+        Destroy(this.gameObject);
     }
 }
