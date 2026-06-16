@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3423261277806528244}
   - component: {fileID: 5860477920131083960}
   - component: {fileID: -3704077781670819061}
+  - component: {fileID: 2803573666031860901}
   m_Layer: 0
   m_Name: fruta15
   m_TagString: Untagged
@@ -255,3 +256,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2803573666031860901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8132463471122894802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f3fc9e34d199bb1fa611872da627262, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FruitPoints
+  pointsToAdd: 1

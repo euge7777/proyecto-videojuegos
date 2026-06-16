@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class DistanceScoreCounter : MonoBehaviour
 {
+    public static DistanceScoreCounter Instance;
+
     public Image digitHundreds;
     public Image digitTens;
     public Image digitUnits;
@@ -21,6 +23,11 @@ public class DistanceScoreCounter : MonoBehaviour
 
     private bool isCounting = false;
     private Coroutine countCoroutine;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
