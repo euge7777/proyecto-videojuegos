@@ -12,14 +12,27 @@ public class DistanceScoreCounter : MonoBehaviour
 
     public float pointsDelay = 5f;
 
+    [Header("Partículas por puntos")]
+    public ParticleSystem pointsParticles;
+    public int particlesEveryPoints = 10;
+
     private int currentPoints = 0;
+    private int nextParticlesPoint = 10;
+
     private bool isCounting = false;
     private Coroutine countCoroutine;
 
     private void Start()
     {
         currentPoints = 0;
+        nextParticlesPoint = particlesEveryPoints;
+
         UpdateScoreImages();
+
+        if (pointsParticles != null)
+        {
+            pointsParticles.Stop();
+        }
     }
 
     public void StartCounter()
@@ -46,7 +59,27 @@ public class DistanceScoreCounter : MonoBehaviour
     public void ResetCounter()
     {
         currentPoints = 0;
+        nextParticlesPoint = particlesEveryPoints;
+
         UpdateScoreImages();
+
+        if (pointsParticles != null)
+        {
+            pointsParticles.Stop();
+        }
+    }
+
+    public void AddPoints(int amount)
+    {
+        currentPoints += amount;
+
+        if (currentPoints > 999)
+        {
+            currentPoints = 999;
+        }
+
+        UpdateScoreImages();
+        CheckParticlesByPoints();
     }
 
     private IEnumerator CountPointsRoutine()
@@ -63,14 +96,38 @@ public class DistanceScoreCounter : MonoBehaviour
             }
 
             UpdateScoreImages();
+            CheckParticlesByPoints();
         }
+    }
+
+    private void CheckParticlesByPoints()
+    {
+        if (currentPoints >= nextParticlesPoint)
+        {
+            PlayPointsParticles();
+            nextParticlesPoint += particlesEveryPoints;
+        }
+    }
+
+    private void PlayPointsParticles()
+    {
+        if (pointsParticles == null)
+        {
+            Debug.LogWarning("No están asignadas las partículas de puntos.");
+            return;
+        }
+
+        pointsParticles.Stop();
+        pointsParticles.Play();
+
+        Debug.Log("Partículas activadas en " + currentPoints + " puntos.");
     }
 
     private void UpdateScoreImages()
     {
         if (numberSprites == null || numberSprites.Length < 10)
         {
-            Debug.LogWarning("Faltan asignar los sprites de n�meros del 0 al 9.");
+            Debug.LogWarning("Faltan asignar los sprites de números del 0 al 9.");
             return;
         }
 
